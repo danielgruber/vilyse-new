@@ -422,6 +422,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 		}
 		
 		callEvent("mouseDragged", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseMoved", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
 		
 	}
 

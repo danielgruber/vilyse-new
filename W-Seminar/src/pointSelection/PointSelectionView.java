@@ -731,12 +731,39 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 	public void mouseClicked(MouseEvent e, Point p) {
 		System.out.println(p.x + "." + p.y);
 		
+		if(currentPointSelect != null) {
+			
+			int picID = Integer.parseInt(activeImage.getClientProperty("id").toString());
+			PicturePoint point = new PicturePoint();
+			point.setPosX(p.getX());
+			point.setPosY(p.getY());
+			point.setPicturePointGroupID(currentPointSelect.getId());
+			point.setPicId(picID);
+			DBManager.executeSQL("DELETE FROM picturePoint WHERE pictureID = '"+picID+"' AND picturePointGroupId = '"+currentPointSelect.getId()+"'");
+			DBManager.writePoint(point);
+			
+			currentPointSelect = null;
+			currentPointSelection = null;
+			
+			points.clear();
+        	for(PicturePoint pi : DBManager.getPicturePoints(Integer.parseInt(activeImage.getClientProperty("id").toString()))) {
+        		points.add(pi);
+        	}
+        	
+		}
+	}
+	
+	public void mousePressed(MouseEvent e, Point p) {
 		if(selectDistanceStartOnClick) {
 			selectDistanceStart = p;
 			selectDistanceStartOnClick = false;
 			
 			System.out.println("Point found");
-		} else if(selectDistanceStart != null) {
+		}
+	}
+	
+	public void mouseReleased(MouseEvent e, Point p) {
+		if(selectDistanceStart != null) {
 			// calculate diffs
 			int x = Math.abs(selectDistanceStart.x - p.x);
 			int y = Math.abs(selectDistanceStart.y - p.y);
@@ -749,7 +776,12 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 				x = 0;
 			}
 			
+			if(x < 20 && y < 20) {
+				return;
+			}
+			
 			int dist = getDistance();
+			
 			if(dist == 0) {
 				selectDistanceStart = null;
 			} else {
@@ -775,30 +807,11 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 				
 				selectDistanceStart = null;
 			}
-		} else if(currentPointSelect != null) {
-			
-			int picID = Integer.parseInt(activeImage.getClientProperty("id").toString());
-			PicturePoint point = new PicturePoint();
-			point.setPosX(p.getX());
-			point.setPosY(p.getY());
-			point.setPicturePointGroupID(currentPointSelect.getId());
-			point.setPicId(picID);
-			DBManager.executeSQL("DELETE FROM picturePoint WHERE pictureID = '"+picID+"' AND picturePointGroupId = '"+currentPointSelect.getId()+"'");
-			DBManager.writePoint(point);
-			
-			currentPointSelect = null;
-			currentPointSelection = null;
-			
-			points.clear();
-        	for(PicturePoint pi : DBManager.getPicturePoints(Integer.parseInt(activeImage.getClientProperty("id").toString()))) {
-        		points.add(pi);
-        	}
-        	
 		}
 	}
 	
 	public int getDistance() {
-		String dist = Core.prompt("Whats the distance represented by the red line in cm? (Only integers are allowed.)");
+		String dist = Core.prompt("What distance is represented by the red line? (cm | Only integers are allowed.)");
 		if(dist == "")
 			return 0;
 		
@@ -812,7 +825,8 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 	}
 	
 	public void mouseMoved(MouseEvent e, Point p) {
-
+		
+		
 		if(selectDistanceStart != null) {
 			selectPanel.clearLines();
 			
