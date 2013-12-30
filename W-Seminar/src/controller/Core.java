@@ -58,7 +58,7 @@ public class Core {
 	/**
 	 * App-Specific Infos.
 	 */
-	public static String VERSION = "0.4.3";
+	public static String VERSION = "0.4.5";
 	public static String APP_NAME = "Viylse";
 	public static String LOGO = "/images/logo.png";
 	
