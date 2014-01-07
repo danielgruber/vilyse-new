@@ -92,7 +92,7 @@ public class PointSelectionController extends ViewController {
     		    	
     		    	if(p.getPoints().size() > 0) {
     		    	
-    		    		writer.write(Double.toString(_view.roundPrec(time, 2)));
+    		    		writer.write(Double.toString(_view.roundPrec(time, 5)));
     		    		
     		    		for(PicturePointGroup pg : pointGroups) {
     		    			ResultSet rs = DBManager.get("picturePoint", new String[] { "id", "posX", "posY",
@@ -112,9 +112,9 @@ public class PointSelectionController extends ViewController {
     		    					
     		    					double s = Math.sqrt(x * x + y * y);
     		    					
-    		    					writer.write(Double.toString(_view.roundPrec(xCm, 2)));
-    		    					writer.write(Double.toString(_view.roundPrec(yCm, 2)));
-    		    					writer.write(Double.toString(_view.roundPrec(s, 2)));
+    		    					writer.write(Double.toString(_view.roundPrec(xCm, 5)));
+    		    					writer.write(Double.toString(_view.roundPrec(yCm, 5)));
+    		    					writer.write(Double.toString(_view.roundPrec(s, 5)));
     		    				} else {
     		    					writer.write("");
     		    					writer.write("");
