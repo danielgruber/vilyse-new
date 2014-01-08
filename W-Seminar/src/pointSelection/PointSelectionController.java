@@ -108,9 +108,9 @@ public class PointSelectionController extends ViewController {
     		    					
     		    					double xCm = x * scale;
     		    					
-    		    					double yCm = y  * scale;
+    		    					double yCm = (1200 - y)  * scale;
     		    					
-    		    					double s = Math.sqrt(x * x + y * y);
+    		    					double s = Math.sqrt(xCm * xCm + yCm * yCm);
     		    					
     		    					writer.write(Double.toString(_view.roundPrec(xCm, 5)));
     		    					writer.write(Double.toString(_view.roundPrec(yCm, 5)));
