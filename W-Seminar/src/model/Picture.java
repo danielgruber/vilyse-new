@@ -8,7 +8,7 @@ public class Picture {
 	/**
 	 * id of this picture.
 	 */
-	int id = 0;
+	public int id = 0;
 	
 	/**
 	 * filename for this picture.

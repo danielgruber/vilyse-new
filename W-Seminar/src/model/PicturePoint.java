@@ -2,7 +2,7 @@ package model;
 
 public class PicturePoint {
 	
-	int id = 0;
+	public int id = 0;
 	
 	double posX = 0;
 	
