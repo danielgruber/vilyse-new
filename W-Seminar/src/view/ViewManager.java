@@ -27,7 +27,7 @@ import javax.swing.WindowConstants;
  * @author Daniel Gruber
  * @version 1.2
  */
-public class ViewManager extends Thread implements WindowListener,
+public class ViewManager implements WindowListener,
 		MouseMotionListener {
 
 	/**

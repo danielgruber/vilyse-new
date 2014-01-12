@@ -12,7 +12,7 @@ import controller.W_Controller;
  * @author Daniel Gruber
  * @version 20.06.2013
  */
-abstract public class WindowView extends Thread
+abstract public class WindowView
 {
 	
 	/**

@@ -8,9 +8,13 @@ public class PicturePoint {
 	
 	double posY = 0;
 	
+	double radius;
+	
 	int picturePointGroupID = 0;
 	
 	int picId = 0;
+	
+	boolean generated;
 	
 	public PicturePoint() {
 		// TODO Auto-generated constructor stub
@@ -24,6 +28,22 @@ public class PicturePoint {
 		this.picId = picId;
 	}
 	
+	public boolean isGenerated() {
+		return generated;
+	}
+
+	public void setGenerated(boolean generated) {
+		this.generated = generated;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
 	public int getId() {
 		return id;
 	}
