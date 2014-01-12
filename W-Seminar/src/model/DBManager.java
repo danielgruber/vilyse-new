@@ -164,11 +164,23 @@ public class DBManager {
 	 */
 	public static void InitTables() {
 		try {
+
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS picture (id INTEGER PRIMARY KEY AUTOINCREMENT, filename varchar(200), thumbnail varchar(200), picture INTEGER, disabled INTEGER)");
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS picturePointGroup (id INTEGER PRIMARY KEY AUTOINCREMENT, title varchar(200))");
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS picturePoint (id INTEGER PRIMARY KEY AUTOINCREMENT, pictureID INTEGER, posX double, posY double, picturePointGroupID INTEGER)");
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS project (id INTEGER PRIMARY KEY AUTOINCREMENT, fps double, video varchar(500), videomd5 varchar(250), xScaleStart double, xScaleStop double, yScaleStart double, yScaleStop double, scale double, firstPicture INTEGER)");
+			
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'project'");
+			if(rs.next()) {
+				
+				// update
+				return;
+			} else {
+				
+				
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS picture (id INTEGER PRIMARY KEY AUTOINCREMENT, filename varchar(200), thumbnail varchar(200), picture INTEGER, disabled INTEGER)");
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS picturePointGroup (id INTEGER PRIMARY KEY AUTOINCREMENT, title varchar(200))");
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS picturePoint (id INTEGER PRIMARY KEY AUTOINCREMENT, pictureID INTEGER, posX double, posY double, picturePointGroupID INTEGER)");
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS project (id INTEGER PRIMARY KEY AUTOINCREMENT, fps double, video varchar(500), videomd5 varchar(250), xScaleStart double, xScaleStop double, yScaleStart double, yScaleStop double, scale double, firstPicture INTEGER)");
+			}
+
 		} catch (SQLException e) {
 			System.err.println("Couldn't create DB");
 			e.printStackTrace();

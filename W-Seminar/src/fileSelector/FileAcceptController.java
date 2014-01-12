@@ -11,7 +11,7 @@ public class FileAcceptController extends FileFilter {
 	 * 
 	 * @var Array of Strings
 	 */
-	String[] allowed = new String[] {"mov", "avi", "mpg", "mpeg", "mp4", "vil"};
+	String[] allowed = new String[] {"mov", "avi", "mpg", "mpeg", "mp4", "vil", "wmv"};
 	
 	/**
 	 * it returns true if the provided file matches a valid type.
