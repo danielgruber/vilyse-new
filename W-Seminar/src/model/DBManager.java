@@ -466,6 +466,8 @@ public class DBManager {
 			String scale = String.valueOf(p.getScale()).replace("'", "\\'");
 			
 			String firstPicture = String.valueOf(p.getFirstPicture()).replace("'", "\\'");
+			System.out.println(scale);
+			
 			
 			if (p.getId() == 0) {
 				st.executeUpdate("INSERT INTO project (video, fps, videomd5, xScaleStart, xScaleStop, yScaleStart, yScaleStop, scale, firstPicture) VALUES ('"+video+"', "+p.getFps()+", '"+videomd5+"', '"+xScaleStart+"', '"+xScaleStop+"','"+yScaleStart+"', '"+yScaleStop+"', '"+scale+"', '"+firstPicture+"')");

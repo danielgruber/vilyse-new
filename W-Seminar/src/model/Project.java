@@ -31,7 +31,7 @@ public class Project {
 		this.xScaleStop = xScaleStop;
 		this.yScaleStart = yScaleStart;
 		this.yScaleStop = yScaleStop;
-		this.scale = scale;
+		this.scale = Scale;
 		this.firstPicture = firstPicture;
 	}
 	

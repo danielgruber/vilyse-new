@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -103,7 +104,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 	 * 
 	 * @return the added line, so you can update the point on the fly and the repaint is automatically done on the view.
 	 */
-	public PictureLine addLine(int x1, int y1, int x2, int y2) {
+	public PictureLine addLine(double x1, double y1, double x2, double y2) {
 	    return addLine(x1, y1, x2, y2, Color.black);
 	}
 
@@ -118,7 +119,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 	 * 
 	 * @return the added line, so you can update the point on the fly and the repaint is automatically done on the view.
 	 */
-	public PictureLine addLine(int x1, int y1, int x2, int y2, Color color) {
+	public PictureLine addLine(double x1, double y1, double x2, double y2, Color color) {
 		PictureLine l = new PictureLine(x1,y1,x2,y2, color, this);
 	    lines.add(l);        
 	    repaint();
@@ -153,7 +154,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 	 * 
 	 * @return the added point, so you can update the point on the fly and the repaint is automatically done on the view.
 	 */
-	public ViewPicturePoint addPoint(Point p) {
+	public ViewPicturePoint addPoint(Point2D.Double p) {
 		return addPoint(p, Color.black);
 	}
 	
@@ -165,7 +166,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 	 * 
 	 * @return the added point, so you can update the point on the fly and the repaint is automatically done on the view.
 	 */
-	public ViewPicturePoint addPoint(Point p, Color c) {
+	public ViewPicturePoint addPoint(Point2D.Double p, Color c) {
 		ViewPicturePoint pp = new ViewPicturePoint(p, c, this);
 		
 		points.add(pp);
@@ -183,7 +184,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 	 * 
 	 * @return the added point, so you can update the point on the fly and the repaint is automatically done on the view.
 	 */
-	public ViewPicturePoint addPoint(Point p, Color c, int s) {
+	public ViewPicturePoint addPoint(Point2D.Double p, Color c, int s) {
 		ViewPicturePoint pp = new ViewPicturePoint(p, c, s, this);
 		
 		points.add(pp);
@@ -263,10 +264,10 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 		    for (PictureLine line : lines) {
 		        g.setColor(line.getColor());
 		        
-		        int x1 = Integer.parseInt(Long.toString(Math.round(line.getX1() * width / PICTURE_POINTS_WIDTH + marginLeft)));
-		        int x2 = Integer.parseInt(Long.toString(Math.round(line.getX2() * width / PICTURE_POINTS_WIDTH + marginLeft)));
-		        int y1 = Integer.parseInt(Long.toString(Math.round(line.getY1() * height / PICTURE_POINTS_HEIGHT + marginTop)));
-		        int y2 = Integer.parseInt(Long.toString(Math.round(line.getY2() * height / PICTURE_POINTS_HEIGHT + marginTop)));
+		        int x1 = Integer.parseInt(Long.toString(Math.round(line.getX1() * width / PICTURE_POINTS_WIDTH + marginLeft))),
+		         	x2 = Integer.parseInt(Long.toString(Math.round(line.getX2() * width / PICTURE_POINTS_WIDTH + marginLeft))),
+		         	y1 = Integer.parseInt(Long.toString(Math.round(line.getY1() * height / PICTURE_POINTS_HEIGHT + marginTop))),
+		         	y2 = Integer.parseInt(Long.toString(Math.round(line.getY2() * height / PICTURE_POINTS_HEIGHT + marginTop)));
 		        
 		        //System.out.println("Line " + x1 + "/" + y1 + " -> " + x2 + "/" + y2);
 		        
@@ -332,9 +333,9 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -342,14 +343,14 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mouseClicked", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseClicked", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -357,15 +358,15 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mouseEntered", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseEntered", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -373,15 +374,15 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mouseExited", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseExited", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -389,15 +390,15 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mousePressed", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mousePressed", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -405,15 +406,15 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mouseReleased", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseReleased", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 		
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -421,16 +422,16 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mouseDragged", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
-		callEvent("mouseMoved", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseDragged", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
+		callEvent("mouseMoved", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		int x = Integer.parseInt(Long.toString(Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH)));
-		int y = Integer.parseInt(Long.toString(Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT)));;
-		Point p = new Point(x,y);
+		double x = Math.round((e.getPoint().getX() - currentMarginLeft) / currentImgWidth * PICTURE_POINTS_WIDTH);
+		double y = Math.round((e.getPoint().getY() - currentMarginTop) / currentImgHeight * PICTURE_POINTS_HEIGHT);
+		Point2D.Double p = new Point2D.Double(x,y);
 		
 		if(x < 0 || x > PICTURE_POINTS_WIDTH) {
 			return;
@@ -438,7 +439,7 @@ public class PictureView extends JPanel implements MouseListener, ImageObserver,
 			return;
 		}
 		
-		callEvent("mouseMoved", new Class[]{MouseEvent.class, Point.class}, new Object[]{e, p});
+		callEvent("mouseMoved", new Class[]{MouseEvent.class, Point2D.Double.class}, new Object[]{e, p});
 	}
 }
 

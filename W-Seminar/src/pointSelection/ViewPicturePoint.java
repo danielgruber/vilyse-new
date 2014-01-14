@@ -2,11 +2,12 @@ package pointSelection;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
 public class ViewPicturePoint {
-	private Point point;
+	private Point2D.Double point;
 	
 	private Color color;
 	
@@ -15,14 +16,14 @@ public class ViewPicturePoint {
 	private int size;
 	    
 	
-	public ViewPicturePoint(Point p, Color c, int s, JPanel v) {
+	public ViewPicturePoint(Point2D.Double p, Color c, int s, JPanel v) {
 		point = p;
 		color = c;
 		view = v;
 		size = s;
 	}
 	
-	public ViewPicturePoint(Point p, Color c, JPanel v) {
+	public ViewPicturePoint(Point2D.Double p, Color c, JPanel v) {
 		point = p;
 		color = c;
 		view = v;
@@ -32,14 +33,14 @@ public class ViewPicturePoint {
 	/**
 	 * @return the point
 	 */
-	public Point getPoint() {
+	public Point2D.Double getPoint() {
 		return point;
 	}
 
 	/**
 	 * @param point the point to set
 	 */
-	public void setPoint(Point point) {
+	public void setPoint(Point2D.Double point) {
 		this.point = point;
 		view.repaint();
 	}

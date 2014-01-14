@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
@@ -140,7 +141,7 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 	JMenuItem selectFps = new JMenuItem("Set fps");
 	
 	boolean selectDistanceStartOnClick = false;
-	Point selectDistanceStart = null;
+	Point2D.Double selectDistanceStart = null;
 	
 	/**
 	 * shows the number of the current point to be selected.
@@ -326,10 +327,10 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 					r.mouseMove(selectPanel.getPixelPosX(p.getX()) + selectPanel.getLocationOnScreen().x, selectPanel.getPixelPosY(p.getY()) + selectPanel.getLocationOnScreen().y);
 				} catch(Exception e) {}
 				
-				currentPointSelection = selectPanel.addPoint(new Point(p.getX(),p.getY()), currentPointSelect.color);
+				currentPointSelection = selectPanel.addPoint(new Point2D.Double(p.getX(),p.getY()), currentPointSelect.color);
 			} else {
 			
-				currentPointSelection = selectPanel.addPoint(new Point(0,0), currentPointSelect.color);
+				currentPointSelection = selectPanel.addPoint(new Point2D.Double(0,0), currentPointSelect.color);
 			}
 		}
 	}
@@ -444,7 +445,7 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 		for(PicturePoint p : points) {
 			if(getPicturePointGroup(p.getPicturePointGroupID()) != null) {
 				PicturePointGroup g = getPicturePointGroup(p.getPicturePointGroupID());
-				selectPanel.addPoint(new Point(p.getX(), p.getY()), g.color, 4);
+				selectPanel.addPoint(new Point2D.Double(p.getX(), p.getY()), g.color, 4);
 			}
 		}
 		
@@ -728,7 +729,7 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 		
 	}
 	
-	public void mouseClicked(MouseEvent e, Point p) {
+	public void mouseClicked(MouseEvent e, Point2D.Double p) {
 		System.out.println(p.x + "." + p.y);
 		
 		if(currentPointSelect != null) {
@@ -753,7 +754,7 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 		}
 	}
 	
-	public void mousePressed(MouseEvent e, Point p) {
+	public void mousePressed(MouseEvent e, Point2D.Double p) {
 		if(selectDistanceStartOnClick) {
 			selectDistanceStart = p;
 			selectDistanceStartOnClick = false;
@@ -762,11 +763,11 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 		}
 	}
 	
-	public void mouseReleased(MouseEvent e, Point p) {
+	public void mouseReleased(MouseEvent e, Point2D.Double p) {
 		if(selectDistanceStart != null) {
 			// calculate diffs
-			int x = Math.abs(selectDistanceStart.x - p.x);
-			int y = Math.abs(selectDistanceStart.y - p.y);
+			double x = Math.abs(selectDistanceStart.x - p.x);
+			double y = Math.abs(selectDistanceStart.y - p.y);
 			
 			if(y < x / 20) {
 				y = 0;
@@ -824,7 +825,7 @@ public class PointSelectionView extends WindowView  implements ActionListener, M
 		}
 	}
 	
-	public void mouseMoved(MouseEvent e, Point p) {
+	public void mouseMoved(MouseEvent e, Point2D.Double p) {
 		
 		
 		if(selectDistanceStart != null) {
